@@ -13,6 +13,8 @@ const SigningPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const validVoterIds = ['111', '112', '113', '114'];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!voterId) {
@@ -23,13 +25,21 @@ const SigningPage = () => {
       });
       return;
     }
+
+    if (!validVoterIds.includes(voterId)) {
+      toast({
+        title: "Invalid Voter ID",
+        description: "Please enter a valid voter registration number.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     toast({
       title: "Voter ID Verified",
       description: "Your voter identification has been successfully verified.",
     });
     
-    // Navigate to voting page after successful verification
     navigate('/vote');
   };
 
