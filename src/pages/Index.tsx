@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SignaturePad from '@/components/SignaturePad';
-import { FileCheck } from 'lucide-react';
-import { useToast } from "@/components/ui/use-toast";
+import { IdCard } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 const SigningPage = () => {
   const [voterName, setVoterName] = useState('');
@@ -18,65 +18,63 @@ const SigningPage = () => {
     e.preventDefault();
     if (!voterName || !voterId || !signature) {
       toast({
-        title: "Error",
-        description: "Please fill in all fields and provide a signature.",
+        title: "Verification Required",
+        description: "Please complete all fields including your signature.",
         variant: "destructive",
       });
       return;
     }
     
     toast({
-      title: "Signature Submitted",
-      description: "Your electronic signature has been recorded.",
+      title: "Voter ID Verified",
+      description: "Your voter identification has been successfully verified.",
     });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
-          <FileCheck className="mx-auto h-12 w-12 text-blue-600" />
+          <IdCard className="mx-auto h-12 w-12 text-purple-600" />
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900">
-            Electronic Signature Verification
+            Voter ID Verification
           </h1>
           <p className="mt-2 text-lg text-gray-600">
-            Please complete this form to verify your identity and cast your vote
+            Please verify your identity by completing this official voter ID form
           </p>
         </div>
 
-        {/* Main Form */}
-        <Card className="p-6 bg-white shadow-lg rounded-lg">
+        <Card className="p-6 bg-white shadow-lg rounded-lg border-t-4 border-t-purple-600">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <div>
-                <Label htmlFor="voterName">Full Legal Name</Label>
+                <Label htmlFor="voterName">Legal Full Name</Label>
                 <Input
                   id="voterName"
                   type="text"
                   value={voterName}
                   onChange={(e) => setVoterName(e.target.value)}
                   className="mt-1"
-                  placeholder="Enter your full legal name"
+                  placeholder="As shown on your voter registration"
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="voterId">Voter ID Number</Label>
+                <Label htmlFor="voterId">Voter Registration Number</Label>
                 <Input
                   id="voterId"
                   type="text"
                   value={voterId}
                   onChange={(e) => setVoterId(e.target.value)}
                   className="mt-1"
-                  placeholder="Enter your voter ID number"
+                  placeholder="Enter your voter registration number"
                   required
                 />
               </div>
 
               <div>
-                <Label>Digital Signature</Label>
+                <Label>Signature Verification</Label>
                 <div className="mt-1">
                   <SignaturePad onSignatureChange={setSignature} />
                 </div>
@@ -87,16 +85,25 @@ const SigningPage = () => {
               <p className="text-sm text-gray-500">
                 Date: {new Date().toLocaleDateString()}
               </p>
-              <Button type="submit" size="lg">
-                Submit Signature
+              <Button 
+                type="submit" 
+                size="lg"
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                Verify Identity
               </Button>
             </div>
           </form>
         </Card>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
-          By submitting this form, you confirm that all provided information is true and accurate.
-        </p>
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-500">
+            This is an official voter verification form. By submitting, you certify that all information provided is true and accurate.
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            Fraudulent submissions are subject to penalties under electoral law.
+          </p>
+        </div>
       </div>
     </div>
   );
