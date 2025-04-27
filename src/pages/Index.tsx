@@ -4,22 +4,19 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SignaturePad from '@/components/SignaturePad';
 import { IdCard } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 const SigningPage = () => {
-  const [voterName, setVoterName] = useState('');
   const [voterId, setVoterId] = useState('');
-  const [signature, setSignature] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!voterName || !voterId || !signature) {
+    if (!voterId) {
       toast({
         title: "Verification Required",
-        description: "Please complete all fields including your signature.",
+        description: "Please enter your voter registration number.",
         variant: "destructive",
       });
       return;
@@ -40,45 +37,23 @@ const SigningPage = () => {
             Voter ID Verification
           </h1>
           <p className="mt-2 text-lg text-gray-600">
-            Please verify your identity by completing this official voter ID form
+            Please verify your identity by entering your voter registration number
           </p>
         </div>
 
         <Card className="p-6 bg-white shadow-lg rounded-lg border-t-4 border-t-purple-600">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="voterName">Legal Full Name</Label>
-                <Input
-                  id="voterName"
-                  type="text"
-                  value={voterName}
-                  onChange={(e) => setVoterName(e.target.value)}
-                  className="mt-1"
-                  placeholder="As shown on your voter registration"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="voterId">Voter Registration Number</Label>
-                <Input
-                  id="voterId"
-                  type="text"
-                  value={voterId}
-                  onChange={(e) => setVoterId(e.target.value)}
-                  className="mt-1"
-                  placeholder="Enter your voter registration number"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label>Signature Verification</Label>
-                <div className="mt-1">
-                  <SignaturePad onSignatureChange={setSignature} />
-                </div>
-              </div>
+            <div>
+              <Label htmlFor="voterId">Voter Registration Number</Label>
+              <Input
+                id="voterId"
+                type="text"
+                value={voterId}
+                onChange={(e) => setVoterId(e.target.value)}
+                className="mt-1"
+                placeholder="Enter your voter registration number"
+                required
+              />
             </div>
 
             <div className="flex items-center justify-between mt-6">
